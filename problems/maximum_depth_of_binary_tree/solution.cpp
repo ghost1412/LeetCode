@@ -11,33 +11,13 @@
  */
 class Solution {
 public:
+    int get_depth(TreeNode* root, int n){
+        if(root == NULL) return n;
+        if(root->left == NULL && root->right == NULL) return n+1;
+        return max(get_depth(root->right, n), get_depth(root->left, n)) + 1;
+    }
+    
     int maxDepth(TreeNode* root) {
-        deque<TreeNode* > dq;
-        int depth = 1;
-        if(root){
-            dq.push_back(root);
-            dq.push_back(nullptr);   
-        }else
-            return 0;
-        while(!dq.empty()){
-            while(dq.front()){
-                auto top = dq.front();
-                dq.pop_front();
-              //  depth++;
-             //   if(top->right == NULL && top->left == NULL)
-               //     return depth;
-                if(top->left)
-                    dq.push_back(top->left);
-                if(top->right)
-                    dq.push_back(top->right);
-            }
-          //  cout<<endl;
-            dq.pop_front();
-            if(!dq.empty()){
-                dq.push_back(nullptr);
-                depth++;
-            }
-        }
-        return depth;
-    }        
+        return (root == NULL)? 0:get_depth(root, 0);
+    }
 };
