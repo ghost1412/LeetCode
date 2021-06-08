@@ -11,19 +11,20 @@
  */
 class Solution {
 public:
-    void firstTree(TreeNode* root, vector<int>& s){
-        if(root->left == NULL && root->right == NULL)
-            s.push_back(root->val);
-        if(root->left)
-            firstTree(root->left, s);
-        if(root->right)
-            firstTree(root->right, s);
+    string get_letseq(TreeNode* root){
+        if(root == NULL) return "";
+        if(root->left == NULL && root->right == NULL) return to_string(root->val);
+        string left = "", right = "";
+        if(root->left != NULL)
+            left = get_letseq(root->left);
+        if(root->right != NULL)
+            right = get_letseq(root->right);
+        if(left!="" && right!="")
+            return left+','+right;
+        return left+right;
     }
-
+    
     bool leafSimilar(TreeNode* root1, TreeNode* root2) {
-        vector<int> leaf1, leaf2;
-        firstTree(root1, leaf1);
-        firstTree(root2, leaf2);
-        return leaf1==leaf2;
+        return get_letseq(root1) == get_letseq(root2);
     }
 };
