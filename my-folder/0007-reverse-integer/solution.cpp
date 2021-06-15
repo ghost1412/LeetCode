@@ -1,31 +1,20 @@
 class Solution {
 public:
- int reverse(int x) {
-        int last=x%10;
-        int rev=0;
-        while(x!=0){
-            last=x%10;
-            if (rev>=INT_MAX/10){
-                if (rev>INT_MAX/10){
-                    return 0;
-                }else{
-                    if (last>7){
-                      return 0;
-                    }
-                }
-            }
-            if (rev<=INT_MIN/10){
-                if (rev<INT_MIN/10){
-                    return 0;
-                }else{
-                    if (last<-8){
-                        return 0;
-                    }
-                }
-            }
-            rev=rev*10+last;
-            x=x/10;
+    int reverse(int n) {
+        long long x = n;
+        bool flag = 0;
+        if(x<0){
+            flag = 1;
+            x *= -1;
+        } 
+        long long ans = 0, carry;
+        while(x){
+            carry = x%10;
+            ans = ans*10 + carry;
+            x = x/10;
         }
-        return rev;
+        if(ans > std::numeric_limits<int>::max()) return 0;
+        if(flag) ans *= -1;
+        return ans;
     }
 };
