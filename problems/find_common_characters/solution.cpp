@@ -1,26 +1,24 @@
 class Solution {
 public:
-    vector<string> commonChars(vector<string>& A) {
+    vector<string> commonChars(vector<string>& words) {
         vector<int> c(26, INT_MAX);
-        for(int i=0; i< A.size(); i++){
-            vector<int> temp(26, 0);
-            for(int j=0; j<A[i].size(); j++){
-                //cout<<(int)A[i][j] - 'a'<<" ";
-                temp[(int)A[i][j] - 'a'] += 1;
+        for(int i=0; i<words.size(); i++){
+            vector<int> c_t(26, 0);
+            for(int j=0; j<words[i].size(); j++){
+                c_t[words[i][j]-'a']++;
             }
-            for(int i=0; i<26; i++)
-                c[i] = min(c[i], temp[i]);
+            for(int k=0; k<26; k++){
+                c[k] = min(c[k], c_t[k]);
+            }
         }
         vector<string> ans;
-        string s = "";
-        for(int i=0; i<c.size(); i++){
-            s = "";
-            if(c[i] != INT_MAX){
-                while(c[i]--){
-                    s = "";
-                    s += (char)i + 'a';
-                    ans.push_back(s);          
-                }
+        for(int i=0; i<26; i++){
+            while(c[i]){
+                char cc = (char)(i+97);
+                string s;
+                s += cc;
+                ans.push_back(s);
+                c[i]--;
             }
         }
         return ans;
