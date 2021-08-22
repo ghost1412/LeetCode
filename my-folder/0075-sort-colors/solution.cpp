@@ -1,16 +1,25 @@
 class Solution {
 public:
-    void sortColors(vector<int>& a) {
-        int x=0, y=0, z=0;
-        for(int i=0; i<a.size(); i++){
-            if(a[i]==0) x++;
-            else if(a[i]==1) y++;
-            else if(a[i]==2) z++;
+    void sortColors(vector<int>& nums) {
+        int a=0, b=0, c=0;
+        for(int i=0; i<nums.size(); i++){
+            if(nums[i] == 0) a++;
+            else if(nums[i] == 1) b++;
+            else c++;
         }
-        for(int i=0; i<a.size(); i++){
-            if(x-->0) a[i]=0;
-            else if(y-->0) a[i]=1;
-            else if(z-->0) a[i]=2;
+        for(int i=0; i<nums.size(); i++){
+            if(a!=0){
+                nums[i] = 0;
+                a--;
+            }else
+            if(b!=0){
+                nums[i] = 1;
+                b--;
+            }else{
+                nums[i] = 2;
+                c--;
+            }
         }
+        return;
     }
 };
