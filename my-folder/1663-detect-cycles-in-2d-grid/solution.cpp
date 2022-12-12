@@ -1,7 +1,6 @@
 class Solution {
 public:
-    
-    bool detectCycle(vector<vector<char>> &mat, int i, int j, char c){
+bool detectCycle(vector<vector<char>> &mat, int i, int j, char c){
         int n = mat.size(), m = mat[0].size();
         vector<pair<int, int>> d = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
         queue<pair<int, int>> q;
