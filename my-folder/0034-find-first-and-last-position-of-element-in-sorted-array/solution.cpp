@@ -1,40 +1,50 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        int n = nums.size();
-        if(n == 0)
-            return vector<int>{-1, -1};
-        if(n == 1)
-            return (nums[0] == target)? vector<int>{0, 0}: vector<int>{-1, -1};
-        int s = 1, e = n - 1, mid = s + (e - s)/2, first = 0;
-        while(s <= e){
-            if(nums[mid-1] < target && nums[mid] == target){
-                first = mid;
-                break;
-            }
-            else if(nums[mid] < target)
-                s = mid + 1;
-            else 
-                e = mid - 1;
-            mid = s + (e - s)/2;
+        int sz = nums.size();
+        if (sz == 0) return vector<int> {-1, -1};
+
+        if (sz == 1) {
+            if (nums[0] == target) return vector<int> {0, 0};
+            else return vector<int> {-1 , -1};
         }
-        if(first == 0 && target != nums[0]) return vector<int>{-1, -1};
-        s = first;
-        e = n - 2;
-        mid = s + (e - s)/2;
-        int last = n - 1;
-        while(s <= e){
-            if(nums[mid] == target && nums[mid+1] > target){
-                last = mid;
+
+        int first = 1, last = sz - 1, mid, firstIndex = 0;
+        mid = first + (last - first)/2;
+
+        while(first <= last) {
+
+            if (nums[mid - 1] < target && nums[mid] == target) {
+                firstIndex = mid;
+                cout<<firstIndex;
                 break;
+            } else if (nums[mid] < target) {
+                first = mid + 1;
+            } else {
+                last = mid - 1;
             }
-            else if(nums[mid] > target){
-                e = mid - 1;
-            }
-            else
-                s = mid + 1;
-            mid = s + (e - s)/2;
+            mid = first + (last - first) / 2;
         }
-        return vector<int>{first, last};
+
+        if (firstIndex == 0 && nums[0] != target) return vector<int> {-1, -1};
+
+        first = firstIndex;
+        last = sz - 2;
+        int lastIndex = sz - 1;
+        mid = first + (last - first)/2;
+    
+        while (first <= last) {
+
+            if (nums[mid+1] > target && nums[mid] == target) {
+                lastIndex = mid;
+                break;
+            } else if (nums[mid] > target) {
+                last = mid - 1;
+            } else {
+                first = mid + 1;
+            }
+            mid = first + (last - first) / 2;
+        }
+        return vector<int> {firstIndex, lastIndex};
     }
 };
