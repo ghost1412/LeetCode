@@ -9,21 +9,22 @@
  */
 class Solution {
 public:
-    bool find(TreeNode* root, TreeNode* s){
-        if(root == NULL) return false;
-        else if(root == s) return true;
-        else
-            return(find(root->left, s)||find(root->right, s));
-    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        while(root){
-            if(find(root->left, p) && find(root->left, q))
-                root = root->left;
-            else if(find(root->right, p) && find(root->right, q))
-                root = root->right;
-            else
-                break;
+        if (root == NULL) {
+            return NULL;
         }
-        return root;
+
+        if (root->val == p->val || root->val == q->val) {
+            return root;
+        }
+
+        TreeNode* l = lowestCommonAncestor(root->left, p, q);
+        TreeNode* r = lowestCommonAncestor(root->right, p, q);
+
+        if (l && r) {
+            return root;
+        }
+
+        return (l) ? l : r;
     }
 };
