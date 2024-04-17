@@ -10,25 +10,28 @@
  * };
  */
 class Solution {
-    string ans = "";
-public:   
-    void paths(TreeNode* root, string till){
-        if(!root)
-            return;
-        if(root->left) paths(root->left, (char)(root->val+'a')+till);
-        if(root->right) paths(root->right, (char)(root->val+'a')+till);
-        if(!root->left && !root->right){
-            till = (char)(root->val+'a')+till;
-            if(ans.size() == 0)
-                ans = till;
-            else if(till < ans)
-                ans = till;
+public:
+    string findSmallest(TreeNode* root, string currPath, string & currentShortest) {
+        if (!root) currentShortest;
+        char currentNode =  (char)(root->val+'a');
+        if (root -> left) findSmallest(root->left, currentNode+currPath, currentShortest);
+        if (root -> right) findSmallest(root->right, currentNode+currPath, currentShortest);
+
+        if (!root->left && !root->right) {
+            currPath = currentNode + currPath;
+            if (!currentShortest.size()) {
+                currentShortest = currPath;
+            } else if (currPath < currentShortest) {
+                currentShortest = currPath;
+            }
         }
+        return currentShortest;
+
     }
-    
+
     string smallestFromLeaf(TreeNode* root) {
-        if(!root) return "";
-        paths(root, "");
-        return ans;
+        string ans = "";
+        if (!root) return ans;
+        return findSmallest(root, "", ans);
     }
 };
