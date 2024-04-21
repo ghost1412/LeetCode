@@ -24,7 +24,6 @@ public:
             hr++;
             hright = hright->right;
         }    
-      //  cout<<hl<<hr<<" ";
         if(hl == hr)
             return pow(2, hr) - 1;
         return countNodes(root->left) + countNodes(root->right) + 1;
