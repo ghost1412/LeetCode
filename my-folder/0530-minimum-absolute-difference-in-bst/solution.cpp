@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void inorder(TreeNode* root, int& prev, int& minDiff) {
+        if (!root) return;
+
+        inorder(root->left, prev, minDiff);
+
+        if (prev != -1) {
+            minDiff = std::min(minDiff, root->val - prev);
+        }
+
+        prev = root->val;
+
+        inorder(root->right, prev, minDiff);
+    }
+
+    int getMinimumDifference(TreeNode* root) {
+        int prev = -1;
+        int minDiff = INT_MAX;
+        inorder(root, prev, minDiff);
+        return minDiff;
+    }
+};
