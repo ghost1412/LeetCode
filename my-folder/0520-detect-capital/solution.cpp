@@ -1,24 +1,24 @@
 class Solution {
 public:
-    bool detectCapitalUse(string word) {
-        int flag = 0, flag2 = 0;
-        if(word[0] > 90)
-            flag = 1;
-        if(word.length()>=2)
-            if(word[1]<=90)
-                flag2 = 1;
-        if(word.length()==1)
-            return true;
-        cout<<flag2;
-        for(int i=1; i<word.size(); i++){
-            cout<<i;
-            if(word[i]<=90 && flag == 1)
+    bool checkAllSame(const string& word, bool isUpperCase) {
+        for (char ch : word) {
+            if ((isUpperCase && !isupper(ch)) || (!isUpperCase && isupper(ch))) {
                 return false;
-            if(flag2 == 1 && word[i] > 90)
-                return false;
-            if(flag2 == 0 && word[i] <= 90)
-                return false;
+            }
         }
         return true;
     }
+
+    bool detectCapitalUse(const string& word) {
+        if (word.empty()) return false;
+
+        bool isFirstUpper = isupper(word[0]);
+
+        if (isFirstUpper) {
+            return checkAllSame(word.substr(1), isupper(word[1]));
+        } else {
+            return checkAllSame(word, false);
+        }
+    }
 };
+
