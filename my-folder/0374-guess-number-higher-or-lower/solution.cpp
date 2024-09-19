@@ -9,8 +9,7 @@
 
 class Solution {
 public:
-    
-    int guessBS(int l, int r) {
+     int guessBS(int l, int r) {
         if (l > r) return l;
         int mid = l + (r-l)/2;
         int guessRes = guess(mid);
