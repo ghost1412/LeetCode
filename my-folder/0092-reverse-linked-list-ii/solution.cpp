@@ -10,45 +10,39 @@
  */
 class Solution {
 public:
-    ListNode* reverse(ListNode* head){
-        ListNode* curr = head, *prev = NULL;
-        while(curr != NULL){
-            ListNode* temp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = temp;
+    ListNode* reverse(ListNode* head) {
+        ListNode* prev = NULL;
+        while (head != NULL) {
+            ListNode* temp = head->next;
+            head->next = prev;
+            prev = head;
+            head = temp;
         }
         return prev;
     }
+
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        int i = 0;
-        ListNode* curr = head, *nex = NULL, *prev = NULL;
-        ListNode* st = NULL, *en = NULL;
-        while(curr!=NULL){
-            if(i == left - 2){
-                prev = curr;
-            }else
-            if(i == left-1){
-                st = curr;
-            }
-            else if(i == right-1){
-                nex = curr->next;
-                curr->next = NULL;
-                ListNode* reverseNode = reverse(st);
-                if(prev != NULL)
-                    prev->next = reverseNode;
-                else
-                    head = reverseNode;
-                ListNode* temp = reverseNode;
-                while(temp->next != NULL){
-                    en = temp;
-                    temp = temp->next;
-                }
-                temp->next = nex;
-            }
-            i++;
-            curr = curr->next;
+        if (head == NULL || left == right) return head;
+
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+
+        for (int i = 1; i < left; i++) {
+            prev = prev->next;
         }
-        return head;
+
+        ListNode* curr = prev->next;
+        ListNode* next = curr->next;
+        // 1 2 3 4 5 6
+        // 1 3 2 4 5 6
+        // 1 4 3 2 5 6
+        for (int i = 0; i < right - left; i++) {
+            curr->next = next->next;
+            next->next = prev->next;
+            prev->next = next;
+            next = curr->next;
+        }
+        return dummy->next;
     }
 };
