@@ -10,24 +10,17 @@
  * };
  */
 class Solution {
-bool flag = 0;
-public:   
-    void paths(TreeNode* root, int till, int targetSum){
-        if(!root)
-            return;
-        if(root->left) paths(root->left, till+root->val, targetSum);
-        if(root->right) paths(root->right, till+root->val, targetSum);
-        if(!root->left && !root->right){
-            till += root->val;
-            if(targetSum == till){
-                flag = 1;
-                return;
-            }
-        }
+public:
+
+    bool eval(TreeNode* root, int target, int curr) {
+        if (root == NULL) return false;
+        curr += root->val;
+        if (root->left == NULL && root->right == NULL) return curr == target;
+        return eval(root->left, target, curr) || eval(root->right, target, curr);
     }
+
     bool hasPathSum(TreeNode* root, int targetSum) {
-        if(!root) return 0;
-        paths(root, 0, targetSum);
-        return flag;        
+        if (root == NULL) return false;
+        return eval(root, targetSum, 0);
     }
 };
