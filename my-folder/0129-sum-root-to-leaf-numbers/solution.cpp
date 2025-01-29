@@ -10,26 +10,18 @@
  * };
  */
 class Solution {
-string ans = "";
-public:   
-    void paths(TreeNode* root, string till){
-        if(!root)
-            return;
-        if(root->left) paths(root->left, till+to_string(root->val));
-        if(root->right) paths(root->right, till+to_string(root->val));
-        if(!root->left && !root->right){
-            till += to_string(root->val);
-            if(ans.size() == 0)
-                ans = till;
-            else{
-                ans = to_string(stoi(ans)+stoi(till));
-            }
-        }
+public:
+
+    int sum(TreeNode* root, string sumTill) {
+        if (root == NULL) return stoi(sumTill);
+        sumTill = sumTill+to_string(root->val);
+        if (root->left == NULL && root->right == NULL) return stoi(sumTill);
+        int leftSum = (root->left != NULL) ? sum(root->left, sumTill) : 0;
+        int rightSum = (root->right != NULL) ? sum(root->right, sumTill) : 0;
+        return  leftSum+rightSum;
     }
 
     int sumNumbers(TreeNode* root) {
-        if(!root) return 0;
-        paths(root, "");
-        return stoi(ans);
+        return sum(root, "");
     }
 };
