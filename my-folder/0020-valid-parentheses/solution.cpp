@@ -1,24 +1,28 @@
 class Solution {
 public:
+
+    bool isClosingBracket(char c) {
+        return (c==')' || c==']' || c=='}');
+    }
+
+    bool isCorrectOpposite(char c, char d) {
+        if (c == ')') return (d == '(');
+        if (c == ']') return (d == '[');
+        if (c == '}') return (d == '{');
+        return false;
+    }
+
     bool isValid(string s) {
-        stack<char> c;
-        for(int i=0; i<s.size(); i++){
-            if(s[i] == '(' || s[i] == '[' || s[i] == '{')
-                c.push(s[i]);
-            else{
-                if(c.empty()) return false;
-                char top = c.top();
-                c.pop();
-                if(s[i] == ')' && top != '(')
-                    return false;
-                else if(s[i] == ']' && top != '[')
-                    return false;
-                else if(s[i] == '}' && top != '{')
-                    return false;
+        stack<char> st;
+
+        for (int i=0; i<s.size(); i++) {
+            if (isClosingBracket(s[i])) {
+                if (st.empty() || !isCorrectOpposite(s[i], st.top())) return false;
+                st.pop();
+            } else {
+                st.push(s[i]);
             }
         }
-        if(c.empty())
-            return true;
-        return false;
+        return st.empty();
     }
 };
