@@ -1,39 +1,41 @@
 class Solution {
 public:
-    bool isValid(int i, int j, int m, int n){
-        if(i<0 || j<0 || i>=m || j>= n)
-            return false;
-        return true;
+
+    bool isValid(int x, int y, int m, int n) {
+        return (x>=0 && x<m && y>= 0 && y < n);
     }
+
     int orangesRotting(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
         queue<pair<int, int>> q;
-        vector<pair<int, int>> dir{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(grid[i][j] == 2) q.push({i, j});
+        vector<pair<int, int>> dir{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+        for (int i=0; i<grid.size(); i++) {
+            for (int j=0; j<grid[i].size(); j++) {
+                if (grid[i][j] == 2) q.push({i, j});
             }
         }
-        while(!q.empty()){
-            pair<int, int> curr = q.front();
+        pair<int, int> top;
+        int x, y;
+        while (!q.empty()) {
+            top = q.front();
             q.pop();
-            for(int i=0; i<4; i++){
-                int x = curr.first + dir[i].first;
-                int y = curr.second + dir[i].second;
-                if(isValid(x, y, m, n) && grid[x][y] == 1){
+            for (int i=0; i<dir.size(); i++) {
+                x=top.first+dir[i].first;
+                y=top.second+dir[i].second;
+                if (isValid(x, y, grid.size(), grid[0].size()) && grid[x][y] == 1) {
+                    grid[x][y] = 1 + grid[top.first][top.second];
                     q.push({x, y});
-                    grid[x][y] = 1 + grid[curr.first][curr.second];
                 }
-                    
             }
         }
         int ans = 2;
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(grid[i][j] == 1) return -1;
+
+        for (int i=0; i<grid.size(); i++) {
+            for (int j=0; j<grid[i].size(); j++) {
+                if (grid[i][j] == 1) return -1;
                 ans = max(ans, grid[i][j]);
             }
         }
         return ans-2;
     }
 };
+
