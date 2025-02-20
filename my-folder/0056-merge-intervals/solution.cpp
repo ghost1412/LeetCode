@@ -7,9 +7,10 @@ public:
         for (int i=1; i<intervals.size(); i++) {
             if (mergedIntervals.back()[1] < intervals[i][0]) {
                 mergedIntervals.push_back(intervals[i]);
-            } else if (intervals[i][1] > mergedIntervals.back()[1]) {
-                mergedIntervals.back()[1] =  intervals[i][1];
-            }
+            } else
+            if (mergedIntervals.back()[1] < intervals[i][1]) {
+                mergedIntervals.back()[1] = intervals[i][1];
+            }  
         }
         return mergedIntervals;
     }
