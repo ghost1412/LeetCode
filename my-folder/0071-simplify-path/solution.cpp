@@ -10,7 +10,7 @@ public:
         stringstream ss(path);
         string token;
         while (getline(ss, token, '/')) {
-            if (token == "." || token == "" || token == "/") {
+            if (token == "." || token == "") {
                 continue;
             } else if (token == "..") {
                 if (!s.empty()) 
