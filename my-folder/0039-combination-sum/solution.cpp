@@ -1,31 +1,27 @@
 class Solution {
 public:
-
-
-
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         sort(candidates.begin(), candidates.end());
-        vector<vector<int>> combos;
-        vector<int> combination;
-        int index = 0;
-        return combinationSum(candidates, target, combos, index, combination);
+        vector<vector<int>> allCombinations;
+        vector<int> currCombination;
+
+        findCombinationSum(candidates, target, 0, allCombinations, currCombination);
+        return allCombinations;
     }
 
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target, vector<vector<int>>& combos, int index, vector<int>& combination) {
-        
+    void findCombinationSum(vector<int>& candidates, int target, int index, vector<vector<int>>& allCombinations, vector<int>& currCombination) {
         if (target == 0) {
-            combos.push_back(combination);
-            return combos;
+            allCombinations.push_back(currCombination);
+            return;
         }
- 
-        for (; index<candidates.size(); index++) {
-            int val = candidates[index];
-            if (target - val < 0) return combos;
 
-            combination.push_back(val);
-            combinationSum(candidates, target-val, combos, index, combination);
-            combination.erase(combination.end()-1);
+        for (; index<candidates.size(); index++) {
+            int currCandidate = candidates[index];
+            if (target < currCandidate) break;
+            currCombination.push_back(currCandidate);
+            findCombinationSum(candidates, target-currCandidate, index, allCombinations, currCombination);
+            currCombination.erase(currCombination.end()-1);
         }
-        return combos;
+        return;
     }
 };
