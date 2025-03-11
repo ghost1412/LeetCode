@@ -1,38 +1,32 @@
 class Solution {
 public:
-    vector<int> largestDivisibleSubset(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        vector<int> dp(n, 1);
+vector<int> largestDivisibleSubset(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    int n = nums.size();
+    vector<int> dp(n, 1), parent(n, -1);
+    int maxSize = 0, maxIndex = -1;
 
-        for (int i=1; i<n; i++) {
-            for (int j=0; j<i; j++) {
-                if (nums[i] % nums[j] == 0) {
-                    dp[i] = max(dp[i], dp[j]+1);
-                }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (nums[i] % nums[j] == 0 && dp[j] + 1 > dp[i]) {
+                dp[i] = dp[j] + 1;
+                parent[i] = j;
             }
         }
-
-        int max_i = 0;
-        int count = 0;
-
-        for (int i=1; i<n; i++) {
-            if (dp[i] > dp[max_i]) {
-                max_i = i;
-            }
+        if (dp[i] > maxSize) {
+            maxSize = dp[i];
+            maxIndex = i;
         }
-
-        count = dp[max_i];
-        vector<int> res;
-        int maxModEle = nums[max_i];
-        for (int i=max_i; i>=0; i--) {
-            if (maxModEle % nums[i] == 0 && dp[i] == count) {
-                count--;
-                res.push_back(nums[i]);
-                maxModEle = nums[i];
-            }
-        }
-
-        return res;
     }
+
+    vector<int> result;
+    while (maxIndex != -1) {
+        result.push_back(nums[maxIndex]);
+        maxIndex = parent[maxIndex];
+    }
+
+    reverse(result.begin(), result.end());
+    return result;
+}
+
 };
