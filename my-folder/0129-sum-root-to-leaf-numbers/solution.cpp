@@ -11,17 +11,26 @@
  */
 class Solution {
 public:
-
-    int sum(TreeNode* root, string sumTill) {
-        if (root == NULL) return stoi(sumTill);
-        sumTill = sumTill+to_string(root->val);
-        if (root->left == NULL && root->right == NULL) return stoi(sumTill);
-        int leftSum = (root->left != NULL) ? sum(root->left, sumTill) : 0;
-        int rightSum = (root->right != NULL) ? sum(root->right, sumTill) : 0;
-        return  leftSum+rightSum;
+    int sumNumbers(TreeNode* root) {
+        if (root==NULL) return 0;
+        if (root->left ==NULL && root->right == NULL)return root->val;
+        int sum=0;
+        int parent = root->val;
+        computeSum(root->left, parent, sum);
+        computeSum(root->right, parent, sum);
+        return sum;
     }
 
-    int sumNumbers(TreeNode* root) {
-        return sum(root, "");
+    void computeSum(TreeNode* root, int parent, int& sum) {
+        if (root == NULL) return;
+
+        if (root->left==NULL && root->right==NULL) {
+            sum += (parent*10 + root->val);
+            return;
+        }
+
+        parent = parent*10 + root->val;
+        computeSum(root->left, parent, sum);
+        computeSum(root->right, parent, sum);
     }
 };
