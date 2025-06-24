@@ -10,34 +10,37 @@
  * };
  */
 class Solution {
-vector<vector<int>> ans;
-public:   
-    void paths(TreeNode* root, int till, int targetSum, vector<int> temp){
-        if(!root)
-            return;
-        if(root->left){
-            vector<int> temp1 = temp;
-            temp1.push_back(root->left->val);
-            paths(root->left, till+root->val, targetSum, temp1);
+public:
+
+    void calculatePath(TreeNode* root, int targetSum, int sumTill, vector<vector<int>>& res, vector<int>till) {
+        if (root==NULL) return;
+        if (root->left!=NULL) {
+            vector<int> newTill = till;
+            newTill.push_back(root->left->val);
+            calculatePath(root->left, targetSum, sumTill+root->val, res, newTill);
         }
-        if(root->right){
-            vector<int> temp1 = temp;
-            temp1.push_back(root->right->val);            
-            paths(root->right, till+root->val, targetSum, temp1);
-        } 
-        if(!root->left && !root->right){
-            till += root->val;
-            if(targetSum == till){
-                ans.push_back(temp);
+
+        if (root->right!=NULL) {
+            vector<int> newTill = till;
+            newTill.push_back(root->right->val);
+            calculatePath(root->right, targetSum, sumTill+root->val, res, newTill);
+        }
+        if (root->left==NULL && root->right==NULL) {
+            sumTill+=root->val;
+            if (sumTill==targetSum) {
+                res.push_back(till);
             }
         }
+
     }
 
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        if(!root) return ans;
-        vector<int> temp;
-        temp.push_back(root->val);
-        paths(root, 0, targetSum, temp);
-        return ans;         
+
+        vector<vector<int>> res;
+        if (!root) return res;
+        vector<int>till;
+        till.push_back(root->val);
+        calculatePath(root, targetSum, 0, res, till);
+        return res;
     }
 };
